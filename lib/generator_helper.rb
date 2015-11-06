@@ -48,7 +48,6 @@ module GeneratorHelper
 						}
 					}
 				end
-				puts builder.to_xml
 				builder.to_xml
 			end
 		end
