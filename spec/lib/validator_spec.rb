@@ -8,7 +8,7 @@ describe Validator::Xml2 do
 	end
 	it "should validate a signature" do
 		@payment_confirmation  =  Servipag::ApiResponse::PaymentConfirmation.new @xml
-		Validator::Xml2.validate_signature(@payment_confirmation, @public_key_path).should be_true
+		Validator::Xml2.validate_signature(@payment_confirmation, @public_key_path).should be_truthy
 	end
 	it "should find the keys" do 
 		"......."

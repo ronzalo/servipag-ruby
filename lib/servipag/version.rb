@@ -1,3 +1,3 @@
 module Servipag
-  VERSION = "0.0.3c"
+  VERSION = "0.0.4c"
 end

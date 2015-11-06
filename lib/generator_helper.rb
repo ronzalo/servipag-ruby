@@ -11,7 +11,7 @@ module GeneratorHelper
 		def self.generate_numeric_random_token
 			"#{Time.now.to_i}#{self.generate_random_token((1..10),(100..1000))}".slice(0,20).to_i
 		end
-		
+
 		def self.generate_random_token range_one, range_two
 			o     = [range_one,range_two].map{|i| i.to_a}.flatten
 	    	token = (0..10).map{ o[rand(o.length)]  }.join
@@ -21,29 +21,34 @@ module GeneratorHelper
 		def self.generate_payment_date
 			Time.now.strftime("%Y%m%d")
 		end
-	end	
+	end
 	module XML
 		class Xml1
 			def self.generate_xml attrs={}
-				builder = Nokogiri::XML::Builder.new do |xml|
+				builder = Nokogiri::XML::Builder.new(encoding: "ISO-8859-1") do |xml|
 					xml.Servipag {
 						xml.Header {
 							xml.FirmaEPS        attrs[:eps].gsub("\n",'').gsub("\t",'')
 							xml.CodigoCanalPago attrs[:payment_channel_id]
-							xml.IdTxCliente     attrs[:id_tx_client]
+							xml.IdTxPago        attrs[:id_tx_client]
 							xml.FechaPago       attrs[:payment_date].downcase
 							xml.MontoTotalDeuda attrs[:total_amount]
 							xml.NumeroBoletas   attrs[:bill_counter]
+							xml.NombreCliente   attrs[:customer_name]
+							xml.RutCliente      attrs[:customer_rut]
+							xml.EmailCliente    attrs[:customer_email]
+							xml.Version         attrs[:version]
 						}
 						xml.Documentos{
-							xml.IdSubTrx             attrs[:id_sub_trx]
-							xml.CodigoIdentificador  attrs[:identifier_code]
+							xml.IdSubTx              attrs[:id_sub_trx]
+							xml.Identificador        attrs[:identifier_code]
 							xml.Boleta               attrs[:bill]
 							xml.Monto                attrs[:amount]
 							xml.FechaVencimiento     attrs[:expiration_date]
 						}
 					}
 				end
+				puts builder.to_xml
 				builder.to_xml
 			end
 		end

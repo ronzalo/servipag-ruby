@@ -15,17 +15,17 @@ describe Servipag do
 		end
 	end
 	describe GeneratorHelper::DateGenerator do
-		it "should generate today's date on a propper format" do 
+		it "should generate today's date on a propper format" do
 			GeneratorHelper::DateGenerator.generate_payment_date.should be_instance_of String
 			GeneratorHelper::DateGenerator.generate_payment_date.to_s.split('').size.should eq(8)
 		end
 	end
 	describe ServipagConfiguration do
-		it "should read the yaml file like a boss" do 
+		it "should read the yaml file like a boss" do
 			@conf  =  ServipagConfiguration::Configuration.new("test", File.expand_path("..",__FILE__))
 			@conf.settings['payment_channel_id'].should eq(544)
-			@conf.settings['private_key_path'].should eq("/Users/danielaguilar/Documents/acid/servipag/servipag/spec/lib/rsa/private.key")
-			@conf.settings['public_key_path'].should eq("/Users/danielaguilar/Documents/acid/servipag/servipag/spec/lib/rsa/public.key")
+			@conf.settings['private_key_path'].should eq("/Users/gonzalomoreno/Acid/stuffs/servipag-ruby/spec/lib/rsa/private.key")
+			@conf.settings['public_key_path'].should eq("/Users/gonzalomoreno/Acid/stuffs/servipag-ruby/spec/lib/rsa/public.key")
 		end
 	end
 	describe Servipag::ApiRequests::TransactionBegginer do
@@ -35,7 +35,7 @@ describe Servipag do
 			@tb.class.to_s.should eq(Servipag::ApiRequests::TransactionBegginer.to_s)
 		end
 
-		it "should send a xml archive to a servipag server" do 
+		it "should send a xml archive to a servipag server" do
 			@conf  =  ServipagConfiguration::Configuration.new("test", File.expand_path("..",__FILE__))
 			@tb    =  Servipag::ApiRequests::TransactionBegginer.new total_amount: 1,
 																	 id_tx_client: '1370291429uanwxinofge',
@@ -43,8 +43,8 @@ describe Servipag do
 																	 identifier_code: '1370291429',
 																	 bill: '13702914291467263938',
 																	 expiration_date: '20130603'
-			@tb.concatenated_strings.should eq('5441370291429uanwxinofge20130603111137029142913702914291467263938120130603')
-			@tb.eps.should eq('YKKXRAZ1jlbE4wXvyEs6T+0LlL/YsK3kT+a/TJHVCQgwScJV6Wk0nk1FBlQw4HyuaWkNs6wL7qY09bVYc553C2oVggMKxV2uQ5LRr8lzDAHYwFtWDXSgXjxQGF8JRX5IoCimVNtqQsK7SaNDMS5Bf8O6DLurtCU2KsjeKveDp1A=')
+			@tb.concatenated_strings.should eq('5442013060311113702914291467263938120130603')
+			@tb.eps.should eq('cENe8R9bYqHufjzOUiDlUvhHIlTmfD7AoNIrdKM9vxlMe0tI1FVe7rnz5ucJ4f5unoXqry2FQE33EsdQ9mRby9hOc2kZfY2ge5oyO28J+iwt+w8wfCSceqel1Zr+LxNbX6xDmN/7q1FXUixTgKB8bNH7b7xMbhI7eMbmI5TPjzU=')
 		end
 
 		describe Servipag::ApiResponse::PaymentConfirmation do
@@ -52,7 +52,7 @@ describe Servipag do
 				@xml  =  File.open(File.expand_path("../xml/example_xml2.xml", __FILE__))
 				@pc   =  Servipag::ApiResponse::PaymentConfirmation.new @xml
 				@pc.class.to_s.should eq(Servipag::ApiResponse::PaymentConfirmation.to_s)
-				@pc.is_xml2_valid?.should be_true
+				@pc.is_xml2_valid?.should be_truthy
 				@pc.amount.should eq(3000)
 			end
 		end
@@ -62,7 +62,7 @@ describe Servipag do
 				@xml  =  File.open(File.expand_path("../xml/example_xml4.xml", __FILE__))
 				@ct   =  Servipag::ApiResponse::CompleteTransaction.new @xml
 				@ct.class.to_s.should eq(Servipag::ApiResponse::CompleteTransaction.to_s)
-				@ct.is_xml4_valid?.should be_true
+				@ct.is_xml4_valid?.should be_truthy
 			end
 		end
 		describe Servipag::ApiRequests::PurchaseConfirmation do
