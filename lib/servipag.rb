@@ -128,11 +128,11 @@ module Servipag
       end
 
       def show_response_when_positive_status message
-        ApiRequests::PurchaseConfirmation.new return_code: 1, message: message
+        ApiRequests::PurchaseConfirmation.new return_code: 0, message: message
       end
 
       def show_response_when_negative_status message
-        ApiRequests::PurchaseConfirmation.new return_code: 0, message: message
+        ApiRequests::PurchaseConfirmation.new return_code: 1, message: message
       end
 
   	end

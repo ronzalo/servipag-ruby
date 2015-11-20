@@ -1,7 +1,7 @@
 module Validator
-	
+
 	def self.validate_total_amount_length total_amount
-		if (self.is_a_number? total_amount.to_s) 
+		if (self.is_a_number? total_amount.to_s)
 			if (total_amount.to_s.split('').size > 0 and total_amount.to_s.split('').size < 8)
 				total_amount
 				else
@@ -9,9 +9,9 @@ module Validator
 				end
 		else
 			raise "#{total_amount} Is not a valid number"
-		end		
+		end
 	end
-	
+
 	# validates if is a number, replace commas for dots
 	# equals 0 means true
 	def self.is_a_number? string
@@ -23,13 +23,13 @@ module Validator
 		end
 
 		def self.translate_from_xml tag
-			tags = {'FirmaServipag'       => :servipag_signature, 
+			tags = {'FirmaServipag'       => :servipag_signature,
 							'IdTrxServipag'       => :servipag_id_trx,
 							'IdTxCliente'         => :id_tx_client,
 							'FechaPago'           => :payment_date,
               'CodMedioPago'        => :payment_method_id,
               'FechaContable'       => :accountable_date,
-              'CodigoIdentificador' => :identifier_code,    
+              'CodigoIdentificador' => :identifier_code,
               'Boleta'              => :bill,
               'Monto'               => :amount,
               'EstadoPago'          => :payment_state,
